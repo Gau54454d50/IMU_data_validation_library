@@ -3,11 +3,11 @@ name: ROS2 CI
 on:
   push:
     paths:
-      - 'IMU_data_validation_library/**'
+      - '/**'
       - '.github/workflows/ros2-ci.yml'
   pull_request:
     paths:
-      - 'IMU_data_validation_library/**'
+      - '/**'
       - '.github/workflows/ros2-ci.yml'
 
 jobs:
@@ -36,7 +36,7 @@ jobs:
         run: |
           source /opt/ros/jazzy/setup.bash
           rosdep update
-          rosdep install --from-paths /IMU_data_validation_library --ignore-src -r -y
+          rosdep install --from-paths / --ignore-src -r -y
 
       - name: Guard against invalid Vector3 brace-list assignment regressions
         run: |
@@ -48,7 +48,7 @@ jobs:
       - name: Create colcon workspace
         run: |
           mkdir -p ros_ws/src
-          ln -sfn "${GITHUB_WORKSPACE}//IMU_data_validation_library" ros_ws/src//IMU_data_validation_library
+          ln -sfn "${GITHUB_WORKSPACE}" ros_ws/src/IMU_data_validation_library
 
       - name: Build package (tests enabled)
         run: |
