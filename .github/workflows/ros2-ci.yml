@@ -40,7 +40,7 @@ jobs:
 
       - name: Guard against invalid Vector3 brace-list assignment regressions
         run: |
-          if rg -n "angular_velocity\s*=\s*\{|linear_acceleration\s*=\s*\{" IMU_data_validation_library/tests; then
+          if rg -n "angular_velocity\s*=\s*\{|linear_acceleration\s*=\s*\{" tests; then
             echo "Found invalid brace-list assignment to geometry_msgs::msg::Vector3 fields."
             exit 1
           fi
@@ -48,14 +48,14 @@ jobs:
       - name: Create colcon workspace
         run: |
           mkdir -p ros_ws/src
-          ln -sfn "${GITHUB_WORKSPACE}" ros_ws/src/IMU_data_validation_library
+          ln -sfn "${GITHUB_WORKSPACE}" ros_ws/src/imu_validator
 
       - name: Build package (tests enabled)
         run: |
           source /opt/ros/jazzy/setup.bash
           cd ros_ws
           colcon build \
-            --packages-select IMU_data_validation_library \
+            --packages-select imu_validator \
             --event-handlers console_direct+ \
             --cmake-args -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} -DBUILD_TESTING=ON
 
@@ -64,7 +64,7 @@ jobs:
           source /opt/ros/jazzy/setup.bash
           cd ros_ws
           colcon test \
-            --packages-select IMU_data_validation_library \
+            --packages-select imu_validator \
             --event-handlers console_direct+ \
             --return-code-on-test-failure
 
@@ -73,7 +73,7 @@ jobs:
           source /opt/ros/jazzy/setup.bash
           cd ros_ws
           colcon test \
-            --packages-select IMU_data_validation_library \
+            --packages-select imu_validator \
             --event-handlers console_direct+ \
             --return-code-on-test-failure \
             --ctest-args \
@@ -83,8 +83,8 @@ jobs:
       - name: Assert new test result XMLs exist
         run: |
           cd ros_ws
-          test -f build/IMU_data_validation_library/test_results/IMU_data_validation_library/test_imu_validation_profiles_and_anomalies.gtest.xml
-          test -f build/IMU_data_validation_library/test_results/IMU_data_validation_library/test_time_sequence_and_rosbag_replay.gtest.xml
+          test -f build/imu_validator/test_results/imu_validator/test_imu_validation_profiles_and_anomalies.gtest.xml
+          test -f build/imu_validator/test_results/imu_validator/test_time_sequence_and_rosbag_replay.gtest.xml
 
       - name: Show test results
         if: always()
@@ -99,6 +99,6 @@ jobs:
         with:
           name: imu-validator-test-results-${{ matrix.build_type }}
           path: |
-            ros_ws/build/IMU_data_validation_library/Testing/**
+            ros_ws/build/imu_validator/Testing/**
             ros_ws/log/latest_test/**
           if-no-files-found: warn
