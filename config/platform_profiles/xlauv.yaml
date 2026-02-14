@@ -1,0 +1,25 @@
+profile:
+  name: xlauv
+
+validator:
+  max_abs_angular_velocity_rad_s: 4.0
+  max_abs_linear_acceleration_m_s2: 25.0
+  validate_orientation_fields: true
+  require_non_zero_timestamp: true
+  max_future_timestamp_sec: 0.04
+  max_past_age_sec: 0.8
+  max_covariance_abs_value: 5000.0
+  require_covariance_diagonal_non_negative: true
+  require_covariance_symmetric: true
+  covariance_symmetry_tolerance: 0.000001
+  enable_stationary_drift_check: true
+  stationary_accel_magnitude_m_s2: 9.80665
+  stationary_accel_tolerance_m_s2: 1.0
+  max_stationary_angular_velocity_rad_s: 0.08
+  enable_magnetic_anomaly_proxy_check: true
+  orientation_covariance_magnetic_anomaly_warn_threshold: 3.0
+
+envelope:
+  max_pitch_deg: 40.0
+  max_roll_deg: 40.0
+  nominal_speed_m_s: 2.5
