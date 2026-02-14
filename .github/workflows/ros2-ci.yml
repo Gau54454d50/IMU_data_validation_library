@@ -3,11 +3,11 @@ name: ROS2 CI
 on:
   push:
     paths:
-      - '/**'
+      - '**'
       - '.github/workflows/ros2-ci.yml'
   pull_request:
     paths:
-      - '/**'
+      - '**'
       - '.github/workflows/ros2-ci.yml'
 
 jobs:
@@ -36,7 +36,7 @@ jobs:
         run: |
           source /opt/ros/jazzy/setup.bash
           rosdep update
-          rosdep install --from-paths / --ignore-src -r -y
+          rosdep install --from-paths . --ignore-src -r -y
 
       - name: Guard against invalid Vector3 brace-list assignment regressions
         run: |
